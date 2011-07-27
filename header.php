@@ -101,81 +101,6 @@
 //});
 </script>
 <!-- END TIMEAGO -->
-
-<!-- ****************** -->
-<!-- START ADGEAR SETUP -->
-<script type="text/javascript" language="JavaScript">
-CPN_PARTNER = "false";
-(function() {
-var _r = Math.floor(Math.random()*1000000);
-if (_r < 300000) {
-CPN_PARTNER = "true";
-}
-})();
-</script>
-<script type="text/javascript" language="JavaScript">
-/*
-<![CDATA[
-*/
-(function() {
-  var proto = "http:";
-  var host = "cdn.adgear.com";
-  var bucket = "a";
-  if (window.location.protocol == "https:") {
-    proto = "https:";
-    host = "a.adgear.com";
-    bucket = "";
-  }
-  document.writeln('<scr' + 'ipt type="text/ja' + 'vascr' + 'ipt" s' + 'rc="' +
-      proto + '//' + host + '/' + bucket + '/adgear.js/current/adgear.js' +
-      '"></scr' + 'ipt>');
-})();
-/*
-]]>
-*/
-</script>
-<script type="text/javascript" language="JavaScript">
-/*
-<![CDATA[
-*/
-  ADGEAR.tags.script.init();
-  ADGEAR.lang.namespace("ADGEAR.site_callbacks");
-  ADGEAR.site_callbacks.variables = function() {
-    return { };
-  }
-/*
-]]>
-*/
-</script>
-<script type="text/javascript" language="JavaScript">
-ADGEAR.site_callbacks.variables = function() {
-return { "CPN_PARTNER": CPN_PARTNER }; }
-</script>
-<!-- End Ad Gear Header -->
-<!-- Ad script and Report Header 041911 -->
-<script type="text/javascript">
-var anCPCd = "WP";
-var anCPPipe = "1";
-var anCPPaperId = "859";
-var anCPPaperName = "Oregon Daily Emerald";
-var anCPPaperUrl = location.host;
-</script>
-<script type="text/javascript">
-var adGearSeg_Format_id="";
-var adGearSeg_ChipKey="";
-var adGearSeg_ContainerID="";
-var adGearSeg_path="";
-var adGearSeg_adPaperID= anCPPaperId;
-var adGearSeg_Section="";
-var adGearSeg_Zone=adGearSeg_Section;
-var adGearSeg_div=",";
-var papername=anCPPaperName;
-</script>
-<script type="text/javascript" src="/wp-content/themes/ode/js/adGearSegmentation.js"></script>
-<script type="text/javascript">getAdGearCMNSections(adGearSeg_adPaperID);</script>
-<!-- END ADGEAR SETUP -->
-<!-- **************** -->
-
 </head>
 
 <body <?php body_class(); ?>>
@@ -190,10 +115,7 @@ var papername=anCPPaperName;
 			<div id="branding" role="banner" style="float:left;">
 				<?php $heading_tag = ( is_home() || is_front_page() ) ? 'h1' : 'div'; ?>
 				<<?php echo $heading_tag; ?> id="site-title">
-					<span>
-						<!--<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>-->
-						<a href="/"><img src="/wp-content/themes/ode/images/emerald-flag.png"></img></a>
-					</span>
+					<span><a href="<?php echo home_url(); ?>"><img src="/wp-content/themes/ode/images/emerald-flag.png"></img></a></span>
 				</<?php echo $heading_tag; ?>>
 				<div id="branding-right">
 					
@@ -210,13 +132,6 @@ var papername=anCPPaperName;
 			</div><!-- #access -->
 			
 			<div style="clear:both"></div>
-			
-			<div id="top-banner-ad-wrapper">
-				<!-- Main Banner Ad -->
-				<div id="top-banner-ad">
-					<?php adtag_banner(); ?>	
-				</div>
-			</div>
 			
 		</div><!-- #masthead -->
 
