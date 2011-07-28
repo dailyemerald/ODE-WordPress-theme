@@ -86,6 +86,25 @@ function my_child_theme_setup() {
 }
 
 
+function ode_author_posts_link() {
+	global $post;
+	
+	if ( $cp_byline = get_post_meta( $post->ID, '_cp_byline', true ) )
+		echo 'By ' . esc_html( $cp_byline );
+	else if ( function_exists( 'coauthors_posts_link' ) )
+		coauthors_posts_link();
+	else
+		the_author_posts_link();
+}
+
+function ode_timestamp() {
+	echo sprintf( '<span class="entry-date">%3$s</span> at <span class="entry-time">%4$s</span>',
+		get_permalink(),
+		esc_attr( get_the_time() ),
+		get_the_date(),
+		esc_attr( get_the_time() )
+	);
+}
 
 /* from TwentyTen */
 function iv_article_posted_on() {

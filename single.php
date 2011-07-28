@@ -16,7 +16,7 @@ get_header(); ?>
 		
 		<div id="post-<?php the_ID(); ?>" <?php post_class('single'); ?>>
 		
-		<h1 class="entry-title"><?php the_title(); ?></h1>
+		<h2 class="entry-title"><?php the_title(); ?></h2>
 							
 		<?php if ( get_post_meta($post->ID, 'show_featured_image', true)  && 
 				   get_post_meta($post->ID, 'show_featured_image', true ) == "false") {
@@ -45,12 +45,9 @@ get_header(); ?>
 		<fb:like href="<?php the_permalink(); ?>" send="true" width="650" show_faces="false" action="recommend" font=""></fb:like>
 
 		<div class="entry-meta">
-			<?php iv_article_posted_on($post); ?>
+			<p class="author"><?php ode_author_posts_link(); ?></p>
+			<p class="timestamp"><?php ode_timestamp(); ?></p>
 		</div><!-- .entry-meta -->
-		
-		<?php if ( get_post_meta($post->ID, 'cp_author', true) ) : ?>
-			<?php echo get_post_meta($post->ID, 'cp_author', true); // show cp_author, because this post is migrated from CP5 ?>
-		<?php endif; // no cp_author, so this is a native post?>
 		
 		<?php if ( get_post_meta($post->ID, 'cp_image', true) ) : ?>
 			<img src="
