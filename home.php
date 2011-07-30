@@ -1,30 +1,48 @@
 <?php
-/**
- * The main template file.
- *
- * This is the most generic template file in a WordPress theme
- * and one of the two required files for a theme (the other being style.css).
- * It is used to display a page when nothing more specific matches a query.
- * E.g., it puts together the home page when no home.php file exists.
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
- *
- * @package WordPress
- * @subpackage Twenty_Ten
- * @since Twenty Ten 1.0
- */
+/*
+Template Name: Banner/Center/Lead template (Ivar)
+*/
+get_header(); 
 
-get_header(); ?>
+$lead_well_position = "right";
+?>
 
 		<div id="container">
 			<div id="content" role="main">
 
-			<?php
-			/* Run the loop to output the posts.
-			 * If you want to overload this in a child theme then include a file
-			 * called loop-index.php and that will be used instead.
-			 */
-			 get_template_part( 'loop', 'index' );
-			?>
+				<div id="banner-well">
+					<?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar("Banner") ) : ?><?php endif; ?>
+				</div> <!-- #banner-well -->
+				
+				<div style="clear:both"></div>
+				
+			<?php if ($lead_well_position == "left") { ?>
+				<div id="lead-well">
+					<?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar("Lead") ) : ?>No lead sidebar<?php endif; ?>
+				</div><!-- #lead-well -->
+			<?php } ?>
+				
+				<div id="center-well">
+					
+					<?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar("Center") ) : ?>No center sidebar<?php endif; ?>
+					
+					<div id="bottom-left-well">
+						<?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar("Bottom Left") ) : ?>No bottom left sidebar<?php endif; ?>
+					</div><!-- #bottom-left-well -->
+	
+					<div id="bottom-right-well">
+						<?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar("Bottom Right") ) : ?>No bottom right sidebar<?php endif; ?>
+					</div> <!-- #bottom-right-well -->
+					
+				</div><!-- #center-well -->
+
+			<?php if ($lead_well_position == "right") { ?>
+				<div id="lead-well">
+					<?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar("Lead") ) : ?>No lead sidebar<?php endif; ?>
+				</div><!-- #lead-well -->
+			<?php } ?>
+				
+				
 			</div><!-- #content -->
 		</div><!-- #container -->
 
