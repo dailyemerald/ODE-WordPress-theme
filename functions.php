@@ -1,16 +1,22 @@
 <?php
 
-add_theme_support('nav_menus');
-register_nav_menu('header', 'Top header bar (for about, classified, etc)');
-
 if ( !class_exists( 'ode' ) ) {
 	
 class ode
 {
 	
+	var $options_group = 'ode_';
+	var $options_group_name = 'ode_options';
+	var $settings_page = 'ode_settings';
+	
+	var $options_defaults = array(
+		'sphinx_enabled' => 'off',
+		'sphinx_index' => '',
+	);
+	
 	function __construct() {
 		
-		//add_filter( 'manage_posts_columns', array( &$this, '_filter_manage_posts_authors_column' ) );
+		$this->options = array_merge( $this->options_defaults, get_option( $this->options_group_name ) );
 		
 		if ( is_admin() ) {
 			
@@ -21,9 +27,25 @@ class ode
 			$this->search = new sphinxsearch();
 		}
 		
+		// This theme uses post thumbnails
+		add_theme_support( 'post-thumbnails' );
 		add_image_size( 'article-tease', 170, 120, false );
+		// Add default posts and comments RSS feed links to head
+		add_theme_support( 'automatic-feed-links' );
+		
+		add_theme_support( 'nav_menus' );
 		
 		add_action( 'init', array( &$this, 'action_init' ) );
+		
+		if ( !is_admin() && isset( $this->options['sphinx_enabled'] ) && $this->options['sphinx_enabled'] == 'on' ) {
+			add_action( 'init', array( &$this->search, 'initialize' ) );
+		}
+		add_action( 'admin_init', array( &$this, 'action_admin_init' ) );
+		add_action( 'admin_menu', array( &$this, 'action_admin_menu' ) );
+		if ( is_admin_bar_showing() )
+			add_action( 'admin_bar_menu', array( &$this, 'action_admin_bar_menu_150' ), 150 );
+			
+		//add_filter( 'manage_posts_columns', array( &$this, '_filter_manage_posts_authors_column' ) );			
 		
 	}
 	
@@ -56,7 +78,125 @@ class ode
 			register_sidebar( $args );
 		}
 		
+		register_nav_menu('header', 'Top header bar (for about, classified, etc)');
+		
 	}
+	
+	function action_admin_init() {
+		
+		$this->register_settings();
+		
+	}
+	
+	function action_admin_menu() {
+
+		add_submenu_page( 'themes.php', 'ODE Theme Options', 'Theme Options', 'manage_options', 'ode_options', array( &$this, 'options_page' ) );			
+
+	}
+	
+	function action_admin_bar_menu_150() {
+		global $wp_admin_bar;
+	
+		if ( current_user_can( 'manage_options' ) ) {
+			$args = array(
+				'title' => 'Theme Options',
+				'href' => admin_url( 'themes.php?page=ode_options' ),
+				'parent' => 'appearance',
+			);
+			$wp_admin_bar->add_menu( $args );
+			$args = array(
+				'title' => 'Edit CSS',
+				'href' => admin_url( 'themes.php?page=editcss' ),
+				'parent' => 'appearance',
+			);
+			$wp_admin_bar->add_menu( $args );
+		}
+	}
+	
+	function register_settings() {
+
+		register_setting( $this->options_group, $this->options_group_name, array( &$this, 'settings_validate' ) );
+		
+		// Sphinx options
+		add_settings_section( 'ode_sphinx', 'Sphinx Search', array( &$this, 'settings_sphinx_section' ), $this->settings_page );
+		add_settings_field( 'sphinx_enabled', 'Sphinx is: ', array( &$this, 'settings_sphinx_enabled_option' ), $this->settings_page, 'ode_sphinx' );	
+		add_settings_field( 'sphinx_index', 'Index to use', array( &$this, 'settings_sphinx_index_option' ), $this->settings_page, 'ode_sphinx' );			
+
+	}
+	
+	function settings_sphinx_section() {
+		echo '<p>These settings are configured once for using Sphinx as your search indexer. Sphinx means more relevant search results.</p>';
+	}
+	
+	/**
+	 * Whether or not Sphinx is used as the search engine
+	 */
+	function settings_sphinx_enabled_option() {
+
+		$options = $this->options;
+		echo '<select id="sphinx_enabled" name="' . $this->options_group_name . '[sphinx_enabled]">';
+		echo '<option value="off"';
+		if ( isset( $options['sphinx_enabled'] ) && $options['sphinx_enabled'] == 'off' ) {
+			echo ' selected="selected"';
+		}		
+		echo '>Disabled</option>';
+		echo '<option value="on"';
+		if ( isset( $options['sphinx_enabled'] ) && $options['sphinx_enabled'] == 'on' ) {
+			echo ' selected="selected"';
+		}		
+		echo '>Enabled</option>';
+		echo '</select>';
+
+	}
+	
+	/**
+	 * Sphinx index to use
+	 */
+	function settings_sphinx_index_option() {
+		$options = $this->options;
+		echo '<input id="sphinx_index" name="' . $this->options_group_name . '[sphinx_index]"';
+		if ( isset( $options['sphinx_index'] ) ) {
+			echo ' value="' . $options['sphinx_index'] . '"';
+		}		
+		echo ' size="80" />';
+		echo '<p class="description">(optional) Defaults to "*"</p>';	
+	}
+	
+	/**
+	 * Validation and sanitization on the settings field
+	 */
+	function settings_validate( $input ) {
+		
+		if ( $input['sphinx_enabled'] != 'on' ) {
+			$input['sphinx_enabled'] = 'off';
+		}		
+		$input['sphinx_index'] = wp_kses_post( $input['sphinx_index'] );
+		return $input;
+
+	}
+	
+	/**
+	 * Options page for the theme
+	 */
+	function options_page() {
+		?>                                   
+		<div class="wrap">
+			<div class="icon32" id="icon-options-general"><br/></div>
+
+			<h2><?php _e('Daily Emerald Options', 'ode-theme') ?></h2>
+
+			<form action="options.php" method="post">
+
+				<?php settings_fields( $this->options_group ); ?>
+				<?php do_settings_sections( $this->settings_page ); ?>
+
+				<p class="submit"><input name="submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" /></p>
+
+			</form>
+		</div>
+		<?php
+	}
+	
 	
 }	
 	
@@ -153,7 +293,6 @@ add_action( 'admin_init', 'remove_widget_areas');
 /* disable auto p tagging because it's really annoying. */
 //remove_filter( 'the_content', 'wpautop' );
 
-<?php
 /**
  * TwentyTen functions and definitions
  *
@@ -234,12 +373,6 @@ function twentyten_setup() {
 
 	// Post Format support. You can also use the legacy "gallery" or "asides" (note the plural) categories.
 	add_theme_support( 'post-formats', array( 'aside', 'gallery' ) );
-
-	// This theme uses post thumbnails
-	add_theme_support( 'post-thumbnails' );
-
-	// Add default posts and comments RSS feed links to head
-	add_theme_support( 'automatic-feed-links' );
 
 	// Make theme available for translation
 	// Translations can be filed in the /languages/ directory
