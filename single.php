@@ -1,13 +1,4 @@
-<?php
-/**
- * The Template for displaying all single posts.
- *
- * @package WordPress
- * @subpackage Twenty_Ten
- * @since Twenty Ten 1.0
- */
-
-get_header(); ?>
+<?php get_header(); ?>
 
 <div id="container">
 	<div id="content" role="main">
@@ -22,7 +13,7 @@ get_header(); ?>
 				   get_post_meta($post->ID, 'show_featured_image', true ) == "false") {
 						      // do nothing
 					  } else {
-					  	if (has_post_thumbnail()) { 
+						if ( has_post_thumbnail() ) { 
 				?>
 					<div class="entry-lead-image">
 						<?php the_post_thumbnail(array(640,540)); ?>
@@ -40,22 +31,11 @@ get_header(); ?>
 			<span style="font-size: 12px;"><i>All photos and video are copyright Oregon Daily Emerald. All unauthorized use is strictly prohibited. Please contact <a href="mailto:publisher@dailyemerald.com">publisher@dailyemerald.com</a> for licensing.</i></span>
 		</div>
 		<?php } ?>
-		
-		<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-		<fb:like href="<?php the_permalink(); ?>" send="true" width="650" show_faces="false" action="recommend" font=""></fb:like>
 
 		<div class="entry-meta">
 			<p class="author"><?php ode_author_posts_link(); ?></p>
 			<p class="timestamp"><?php ode_timestamp(); ?></p>
 		</div><!-- .entry-meta -->
-		
-		<?php if ( get_post_meta($post->ID, 'cp_image', true) ) : ?>
-			<img src="
-			<?php $images = explode("{}", get_post_meta($post->ID, 'cp_image', true)); // show cp_author, because this post is migrated from CP5 
-				  echo $images[0];
-			?>
-			"></img>
-		<?php endif; ?>
 		
 		<div class="entry-content">
 			<?php the_content(); ?>
@@ -82,7 +62,6 @@ get_header(); ?>
 		<?php endif; ?>
 		
 		<div class="entry-utility">
-			<?php twentyten_posted_in(); ?>
 			<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="edit-link">', '</span>' ); ?>
 		</div><!-- .entry-utility -->
 	</div><!-- #post-## -->
