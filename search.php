@@ -1,37 +1,67 @@
-<?php
-/**
- * The template for displaying Search Results pages.
- *
- * @package WordPress
- * @subpackage Twenty_Ten
- * @since Twenty Ten 1.0
- */
+<?php get_header(); ?>
 
-get_header(); ?>
+<div id="container">
+	<div id="content" role="main">
 
-		<div id="container">
-			<div id="content" role="main">
+	<?php if ( have_posts() ) : ?>
+		
+	<?php
+		global $wp_query, $ode;
+		$search_array = explode( ' ', get_search_query() );
+	?>
 
-<?php if ( have_posts() ) : ?>
-				<h1 class="page-title"><?php printf( __( 'Search Results for: %s', 'twentyten' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
+	<?php while ( have_posts() ) : the_post(); ?>
+
+		<div id="post-<?php the_ID(); ?>" <?php post_class('article-list-tease'); ?>>
+			<?php
+				$high_title = new Highlighter( $post->post_title, $search_array );
+				$high_title->mark_words();		
+			?>
+			<h3 class="entry-title"><a href="<?php the_permalink(); ?>"><?php echo $high_title->get(); ?></a></h3>
+
+			<div class="entry-meta">
+				<span class="author"><?php ode_author_posts_link(); ?></span> - <span class="timestamp"><?php ode_timestamp(); ?></span>
+			</div><!-- .entry-meta -->
+
+			<div class="entry-summary entry">
 				<?php
-				/* Run the loop for the search to output the results.
-				 * If you want to overload this in a child theme then include a file
-				 * called loop-search.php and that will be used instead.
-				 */
-				 get_template_part( 'loop', 'search' );
+					$high_content = new Highlighter( $post->post_content, $search_array );
+					$high_content->text = $high_content->strip( $high_content->text );
+					$high_content->zoom( 10, 175 );
+					$high_content->mark_words();
 				?>
-<?php else : ?>
-				<div id="post-0" class="post no-results not-found">
-					<h2 class="entry-title"><?php _e( 'Nothing Found', 'twentyten' ); ?></h2>
-					<div class="entry-content">
-						<p><?php _e( 'Sorry, but nothing matched your search criteria. Please try again with some different keywords.', 'twentyten' ); ?></p>
-						<?php get_search_form(); ?>
-					</div><!-- .entry-content -->
-				</div><!-- #post-0 -->
-<?php endif; ?>
-			</div><!-- #content -->
-		</div><!-- #container -->
+				<?php echo $high_content->get(); ?>
+			</div>
 
-<?php get_sidebar(); ?>
+			<div style="clear:both"></div>
+
+			<!-- .entry-summary -->
+
+		</div><!-- #post-## -->
+
+	<?php endwhile; // End the loop. Whew. ?>
+	
+	<?php /* Display navigation to next/previous pages when applicable */ ?>
+	<?php if (  $wp_query->max_num_pages > 1 ) : ?>
+		<div id="nav-below" class="navigation">
+			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentyten' ) ); ?></div>
+			<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?></div>
+		</div><!-- #nav-below -->
+	<?php endif; ?>			
+			
+	<?php else: ?>
+		
+		<div id="post-0" class="post error404 not-found">
+			<h1 class="entry-title"><?php _e( 'Not Found', 'twentyten' ); ?></h1>
+			<div class="entry-content">
+				<p><?php _e( 'Apologies, but no results were found for the requested archive. Perhaps searching will help find a related post.', 'twentyten' ); ?></p>
+				<?php get_search_form(); ?>
+			</div><!-- .entry-content -->
+		</div><!-- #post-0 -->
+		
+	<?php endif; ?>
+
+	</div><!-- #content -->
+</div><!-- #container -->
+
 <?php get_footer(); ?>

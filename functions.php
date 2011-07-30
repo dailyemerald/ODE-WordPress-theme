@@ -21,6 +21,7 @@ class ode
 		if ( is_admin() ) {
 			
 		} else {
+			require_once( 'php/class.highlighter.php' );
 			require_once( 'php/template-tags.php' );
 			require_once( 'php/sphinxapi.php' );
 			require_once( 'php/class.sphinxsearch.php' );
