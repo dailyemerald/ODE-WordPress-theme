@@ -40,8 +40,8 @@ class Highlighter {
 		else
 			$this->text = $text;
 
-		$this->matches     = 0;
 		$this->first_match = strlen( $text );
+		$this->matches     = 0;
 
 		// Find the first matched term
 		foreach ( (array)$words AS $word ) {
@@ -54,7 +54,7 @@ class Highlighter {
 		$this->words = array_filter( $this->words );
 		$this->words = apply_filters( 'su_highlight_words', $this->words );
 		
-		if ( $this->first_match >= strlen( $this->text ) )
+		if ( $this->first_match >= ( strlen( $this->text ) - 300 ) )
 			$this->first_match = -1;
 	}
 	
