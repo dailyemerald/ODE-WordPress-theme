@@ -68,7 +68,7 @@ function ode_pagination() {
 	if( $wp_rewrite->using_permalinks() )
 		$pagination['base'] = user_trailingslashit( trailingslashit( remove_query_arg( 's', get_pagenum_link( 1 ) ) ) . 'page/%#%/', 'paged' );
 
-	if( !empty($wp_query->query_vars['s']) )
+	if( !empty( $wp_query->query_vars['s'] ) )
 		$pagination['add_args'] = array( 's' => get_query_var( 's' ) );
 
 	echo "<div class='pagination'><span class='float-right total-results'>Total results: " . $wp_query->found_posts . "</span>" . paginate_links( $pagination ) . '<span class="clear-both"></span></div>';

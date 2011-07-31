@@ -19,7 +19,8 @@ class ode
 		$this->options = array_merge( $this->options_defaults, get_option( $this->options_group_name ) );
 		
 		if ( is_admin() ) {
-			
+			require_once( 'php/class.ode_post.php' );
+			$this->post = new ode_post();
 		} else {
 			require_once( 'php/class.highlighter.php' );
 			require_once( 'php/template-tags.php' );
