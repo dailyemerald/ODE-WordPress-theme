@@ -27,7 +27,7 @@ class sphinxsearch {
 		
 		if ( !empty( $ode->options['sphinx_index'] ) ) {
 			$search_options['index'] = $ode->options['sphinx_index'];
-		}
+		}	
 
 		return $search_options;
 	} // END get_options()
@@ -49,23 +49,22 @@ class sphinxsearch {
 	 *
 	 * @param WP_Query $wp_query
 	 */
-	public function parse_query(&$wp_query) {
-		if($wp_query->is_search) {
-			if(class_exists('SphinxClient')) {
-				switch($wp_query->get('sort')) {
+	public function parse_query( &$wp_query ) {
+		if( $wp_query->is_search ) {
+			if ( class_exists( 'SphinxClient' ) ) {
+				
+				switch( $wp_query->get('sort') ) {
 					case 'date':
 						$wp_query->query_vars['orderby'] = 'date';
-						$wp_query->query_vars['order'] = 'DESC';
 						break;
 					case 'title':
 						$wp_query->query_vars['orderby'] = 'title';
-						$wp_query->query_vars['order'] = 'ASC';
 						break;
 					default:
 						$wp_query->query_vars['sort'] = 'match'; //setting this so sort link will be hilighted
 				}
-				$results = $this->search_posts($wp_query->query_vars);
-				if($results) {
+				$results = $this->search_posts( $wp_query->query_vars );
+				if ( $results ) {
 					$matching_ids = array();
 					if(intval($results['total']) > 0 ) {
 						foreach($results['matches'] as $result) {
@@ -95,7 +94,7 @@ class sphinxsearch {
 	 * @param array $args
 	 * @return array Sphinx result set
 	 */
-	public function search_posts($args) {
+	public function search_posts( $args ) {
 		$options = $this->get_options();
 		$defaults = array(
 			'search_using' => 'any',
@@ -104,12 +103,37 @@ class sphinxsearch {
 			'posts_per_page' => 0,
 			'showposts' => 0
 		);
-		$args = wp_parse_args($args, $defaults);
+		$args = wp_parse_args( $args, $defaults );
+		
+
+		$sort_types = array(
+			'date',
+			'title',
+			'match'
+		);
+		if ( isset( $_GET['sort'] ) && in_array( strtolower( $_GET['sort'] ), $sort_types ) )
+			$args['sort'] = strtolower( $_GET['sort'] );
+
+		$order_types = array(
+			'ASC',
+			'DESC'
+		);
+		if ( isset( $_GET['order'] ) && in_array( strtoupper( $_GET['order'] ), $order_types ) )
+			$args['order'] = strtoupper( $_GET['order'] );
+			
+		$search_types = array(
+			'all',
+			'exact',
+			'any',
+		);
+		if ( isset( $_GET['search_type'] ) && in_array( strtolower( $_GET['search_type'] ), $search_types ) )
+			$args['search_using'] = strtolower( $_GET['search_type'] );		
+		
 		$sphinx = new SphinxClient();
-		$sphinx->setServer($options['server'], $options['port']);
+		$sphinx->setServer( $options['server'], $options['port'] );
 
 		$search = $args['s'];
-		switch($args['search_using']) {
+		switch( $args['search_using'] ) {
 			case 'all':
 				$sphinx->setMatchMode(SPH_MATCH_ALL);
 				break;
@@ -120,9 +144,9 @@ class sphinxsearch {
 				$sphinx->setMatchMode(SPH_MATCH_ANY);
 		}
 
-		switch($args['sort']) {
+		switch( $args['sort'] ) {
 			case 'date':
-				$sphinx->setSortMode(SPH_SORT_ATTR_DESC, 'date_added');
+				$sphinx->setSortMode(SPH_SORT_ATTR_DESC, 'date_added' );
 				break;
 			case 'title':
 				$sphinx->setSortMode(SPH_SORT_ATTR_ASC, 'title');
@@ -130,7 +154,6 @@ class sphinxsearch {
 			default:
 				$sphinx->setSortMode(SPH_SORT_RELEVANCE);
 		}
-
 		$page = isset($args['paged']) && (intval($args['paged']) > 0) ? intval($args['paged']) : 1;
 		$per_page = max(array($args['posts_per_page'], $args['showposts']));
 		if($per_page < 1) {

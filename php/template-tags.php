@@ -15,6 +15,21 @@ function the_post_thumbnail_caption() {
   }
 }
 
+function ode_author() {
+	echo ode_get_author();
+}
+
+function ode_get_author() {
+	global $post;
+
+	if ( $cp_byline = get_post_meta( $post->ID, '_cp_byline', true ) )
+		$author = esc_html( $cp_byline );
+	else
+		$author = get_the_author();
+		
+	return $author;
+}
+
 function ode_author_posts_link() {
 	global $post;
 	
@@ -33,4 +48,31 @@ function ode_timestamp() {
 		get_the_date(),
 		esc_attr( get_the_time() )
 	);
+}
+
+/**
+ * Standardized pagination we can use anywhere in the loop
+ */
+function ode_pagination() {
+	global $wp_query, $wp_rewrite;
+	$wp_query->query_vars['paged'] > 1 ? $current = $wp_query->query_vars['paged'] : $current = 1;
+
+	$pagination = array(
+		'base' => @add_query_arg('page','%#%'),
+		'format' => '',
+		'total' => $wp_query->max_num_pages,
+		'current' => $current,
+		'type' => 'plain'
+		);
+
+	if( $wp_rewrite->using_permalinks() )
+		$pagination['base'] = user_trailingslashit( trailingslashit( remove_query_arg( 's', get_pagenum_link( 1 ) ) ) . 'page/%#%/', 'paged' );
+
+	if( !empty($wp_query->query_vars['s']) )
+		$pagination['add_args'] = array( 's' => get_query_var( 's' ) );
+
+	echo "<div class='pagination'><span class='float-right total-results'>Total results: " . $wp_query->found_posts . "</span>" . paginate_links( $pagination ) . '<span class="clear-both"></span></div>';
+	
+	echo "<div class='clear-both'></div>";
+	
 }

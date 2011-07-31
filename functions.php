@@ -41,6 +41,7 @@ class ode
 		if ( !is_admin() && isset( $this->options['sphinx_enabled'] ) && $this->options['sphinx_enabled'] == 'on' ) {
 			add_action( 'init', array( &$this->search, 'initialize' ) );
 		}
+		
 		add_action( 'admin_init', array( &$this, 'action_admin_init' ) );
 		add_action( 'admin_menu', array( &$this, 'action_admin_menu' ) );
 		if ( is_admin_bar_showing() )

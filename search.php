@@ -8,6 +8,10 @@
 	<?php
 		global $wp_query, $ode;
 		$search_array = explode( ' ', get_search_query() );
+		foreach( $search_array as $key => $term ) {
+			if ( strlen( $term ) < 4 )
+				unset( $search_array[$key] );
+		}
 	?>
 
 	<?php while ( have_posts() ) : the_post(); ?>
@@ -20,7 +24,11 @@
 			<h3 class="entry-title"><a href="<?php the_permalink(); ?>"><?php echo $high_title->get(); ?></a></h3>
 
 			<div class="entry-meta">
-				<span class="author"><?php ode_author_posts_link(); ?></span> - <span class="timestamp"><?php ode_timestamp(); ?></span>
+				<?php
+					$high_author = new Highlighter( ode_get_author(), $search_array );
+					$high_author->mark_words();
+				?>
+				<span class="author">By <?php echo $high_author->get(); ?></span> - <span class="timestamp"><?php ode_timestamp(); ?></span>
 			</div><!-- .entry-meta -->
 
 			<div class="entry-summary entry">
@@ -41,13 +49,7 @@
 
 	<?php endwhile; // End the loop. Whew. ?>
 	
-	<?php /* Display navigation to next/previous pages when applicable */ ?>
-	<?php if (  $wp_query->max_num_pages > 1 ) : ?>
-		<div id="nav-below" class="navigation">
-			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentyten' ) ); ?></div>
-			<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?></div>
-		</div><!-- #nav-below -->
-	<?php endif; ?>			
+	<?php ode_pagination(); ?>		
 			
 	<?php else: ?>
 		
