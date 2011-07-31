@@ -134,6 +134,10 @@ body.single .archive-image .archive-caption {
 	text-decoration: underline;
 }
 
+#main .entry-meta .author {
+	text-transform: uppercase;
+}
+
 #main .entry-content a {
 	text-decoration: underline;
 }
@@ -169,13 +173,6 @@ body.single .archive-image .archive-caption {
 	padding-bottom: 7px;
 	width: 100%;
 	/*border-bottom: 1px solid #CCC;*/
-}
-
-#main .byline {
-	font-size: 11px;
-	margin: 0;
-	padding: 0;
- 	color: #666;
 }
 
 #main h5 .header {

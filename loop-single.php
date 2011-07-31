@@ -28,7 +28,7 @@
 	<?php } ?>
 
 	<div class="entry-meta">
-		<div class="author">By <?php do_action( 'ode_author_posts_link' ); ?></div>
+		<div class="byline"><?php do_action( 'ode_author_posts_link' ); ?></div>
 		<div class="timestamp"><?php do_action( 'ode_timestamp' ); ?></div>
 	</div><!-- .entry-meta -->
 	

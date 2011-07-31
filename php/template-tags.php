@@ -16,7 +16,7 @@ function the_post_thumbnail_caption() {
 }
 
 function ode_author() {
-	echo ode_get_author();
+	echo 'By ' . ode_get_author();
 }
 
 function ode_get_author() {
@@ -29,11 +29,11 @@ function ode_get_author() {
 	else
 		$author = get_the_author();
 		
-	return $author;
+	return '<span class="author">' . $author . '</span>';
 }
 
 function ode_author_posts_link() {
-	echo ode_get_author_posts_link();
+	echo 'By ' . ode_get_author_posts_link();
 }
 
 function ode_get_author_posts_link() {
@@ -54,7 +54,7 @@ function ode_get_author_posts_link() {
 			get_the_author()
 		);
 	}
-	return $author_posts_link;
+	return '<span class="author">' . $author_posts_link . '</span>';
 }
 
 function ode_timestamp() {

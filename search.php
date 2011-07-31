@@ -28,7 +28,7 @@
 					$high_author = new Highlighter( ode_get_author_posts_link(), $search_array );
 					$high_author->mark_words();
 				?>
-				<span class="author">By <?php echo $high_author->get(); ?></span> - <span class="timestamp"><?php do_action( 'ode_timestamp' ); ?></span>
+				By <span class="author"><?php echo $high_author->get(); ?></span> - <span class="timestamp"><?php do_action( 'ode_timestamp' ); ?></span>
 			</div><!-- .entry-meta -->
 
 			<div class="entry-summary entry">
