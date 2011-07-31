@@ -92,6 +92,7 @@ class ode
 		add_action( 'ode_author', 'ode_author' );
 		add_action( 'ode_author_posts_link', 'ode_author_posts_link' );		
 		add_action( 'ode_timestamp', 'ode_timestamp' );
+		add_action( 'ode_pagination', 'ode_pagination' );
 		
 	}
 	
