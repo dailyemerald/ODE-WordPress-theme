@@ -150,3 +150,34 @@ function ode_head_title_description() {
 	echo '<meta name="description" content="' . $description . '" />' . "\n";
 
 }
+
+/**
+ * College Publisher ad snippets
+ */
+function adtag_banner() {
+	echo '<!-- CMN 728x90 AD tag--><script language="javascript">showNetworkBanner(11);</script>';
+}
+
+function adtag_subbanner() {
+	echo '<!-- CMN 468x60 College AD tag--><script language="Javascript">showNetworkBanner(23);</script>';
+}
+
+function adtag_sidebar_top() {
+	echo '<!-- CMN 300x250 ATF AD tag--><script language="Javascript">showNetworkBanner(12);</script>';
+}
+
+function adtag_sidebar_bottom() {
+	echo '<!-- CMN 300x250 College AD tag--><script language="Javascript">showNetworkBanner(22);</script>';
+}
+
+function adtag_sidebar_tall() {
+	echo '<!-- CMN 160x600 College AD tag--><script language="Javascript">showNetworkBanner(21);</script>';
+}
+
+function adgear_shortcode($atts, $content = null) {
+	extract(shortcode_atts(array(
+		"tag" => ""
+	), $atts));	
+	return '<!-- adgear tag --><script language="javascript">showNetworkBanner('.$tag.');</script>';
+}
+add_shortcode("adgear", "adgear_shortcode");
