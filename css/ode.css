@@ -28,8 +28,30 @@ li.widget {
 	float: right;
 }
 
-body.search #content h3 {
+body.search #main .primary-search {
+	padding-top: 10px;
+	padding-bottom: 5px;
+}
+
+body.search #main .primary-search input#search {
+	width: 500px;
+	padding: 5px;
+}
+
+body.search #content h3.entry-title {
 	font-weight: normal;
+	font-size: 16px;
+}
+
+body.search #content .entry-meta {
+	font-size: 12px;	
+}
+
+body.search #content .entry {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 14px;
+	line-height: 1.3em;
 }
 
 body.search .search-term-match {
