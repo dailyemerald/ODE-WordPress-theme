@@ -80,12 +80,12 @@ function ode_pagination() {
 /**
  * Include Facebook Open Graph metadata for sharing
  */
-function ode_fb_open_graph() {
+function ode_head_fb_open_graph() {
 	
 	$properties = array(
 		'fb:admins' => '100001785043323',
 		'fb:app_id' => '197312536953017',
-		'og:title' => get_bloginfo( 'title' ),
+		'og:title' => get_bloginfo( 'name' ),
 		'og:description' => get_bloginfo( 'description' ),		
 		'og:url' => get_bloginfo( 'url' ),
 		'og:type' => 'website',
@@ -108,4 +108,26 @@ function ode_fb_open_graph() {
 	foreach( $properties as $property => $content ) {
 		echo '<meta property="' . $property . '" content="' . $content . '" />' . "\n";
 	}	
+}
+
+/**
+ * Generate the <title> tag for the header
+ */
+function ode_head_title_description() {
+
+	$title = get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' );
+	$description = get_bloginfo( 'description' );
+	if ( is_single() ) {
+		global $post;
+		$title = $post->post_title;
+		if ( !empty( $post->post_excerpt ) )
+			$description = strip_tags( $post->post_excerpt );
+		else
+			$description = substr( strip_tags( $post->post_content ), 0, 255 ) . '...';
+	} else if ( is_tax() ) {
+		$title = single_term_title( false, false ) . ' | ' . get_bloginfo('name');
+	}
+	echo '<title>' . $title . '</title>' . "\n";
+	echo '<meta name="description" content="' . $description . '" />' . "\n";
+
 }
