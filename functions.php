@@ -89,6 +89,7 @@ class ode
 		// Template-specific methods
 		add_action( 'wp_head', 'ode_head_title_description' );		
 		add_action( 'wp_head', 'ode_head_fb_open_graph' );
+		add_action( 'wp_head', array( &$this, 'action_wp_head' ) );
 		add_action( 'ode_author', 'ode_author' );
 		add_action( 'ode_author_posts_link', 'ode_author_posts_link' );		
 		add_action( 'ode_timestamp', 'ode_timestamp' );
@@ -138,7 +139,13 @@ class ode
 			wp_enqueue_style( 'ode_primary_css', get_bloginfo('template_directory') . '/css/ode.css', array( 'twentyten_css' ), ODE_VERSION );
 		}
 
-	} // END enqueue_resources()	
+	} // END enqueue_resources()
+	
+	function action_wp_head() {
+		
+		echo '<!--******************--><!--START ADGEAR SETUP--><script type="text/javascript"language="JavaScript">CPN_PARTNER="false";(function(){var _r=Math.floor(Math.random()*1000000);if(_r<300000){CPN_PARTNER="true"}})();</script><script type="text/javascript"language="JavaScript">(function(){var proto="http:";var host="cdn.adgear.com";var bucket="a";if(window.location.protocol=="https:"){proto="https:";host="a.adgear.com";bucket=""}document.writeln(\'<scr\'+\'ipt type="text/ja\'+\'vascr\'+\'ipt" s\'+\'rc="\'+proto+\'//\'+host+\'/\'+bucket+\'/adgear.js/current/adgear.js\'+\'"></scr\'+\'ipt>\')})();</script><script type="text/javascript"language="JavaScript">ADGEAR.tags.script.init();ADGEAR.lang.namespace("ADGEAR.site_callbacks");ADGEAR.site_callbacks.variables=function(){return{}}</script><script type="text/javascript"language="JavaScript">ADGEAR.site_callbacks.variables=function(){return{"CPN_PARTNER":CPN_PARTNER}}</script><!--End Ad Gear Header--><!--Ad script and Report Header 041911--><script type="text/javascript">var anCPCd="WP";var anCPPipe="1";var anCPPaperId="859";var anCPPaperName="Oregon Daily Emerald";var anCPPaperUrl=location.host;</script><script type="text/javascript">var adGearSeg_Format_id="";var adGearSeg_ChipKey="";var adGearSeg_ContainerID="";var adGearSeg_path="";var adGearSeg_adPaperID=anCPPaperId;var adGearSeg_Section="";var adGearSeg_Zone=adGearSeg_Section;var adGearSeg_div=",";var papername=anCPPaperName;</script><script type="text/javascript"src="/wp-content/themes/ode/js/adGearSegmentation.js"></script><script type="text/javascript">getAdGearCMNSections(adGearSeg_adPaperID);</script><!--END ADGEAR SETUP--><!--****************-->';
+		
+	}	
 	
 	function register_settings() {
 
