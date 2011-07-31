@@ -1,14 +1,4 @@
-<?php
-/**
- * The Header for our theme.
- *
- * Displays all of the <head> section and everything up till <div id="main">
- *
- * @package WordPress
- * @subpackage Twenty_Ten
- * @since Twenty Ten 1.0
- */
-?><!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" <?php //language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
@@ -46,7 +36,7 @@
 <meta property="og:description" content="<?php echo strip_tags(get_the_excerpt($post->ID)); ?>" />
 <meta property="og:type" content="article" />
 
-<?php if (has_post_thumbnail()) { ?>
+<?php if ( has_post_thumbnail() ) { ?>
 <meta property="og:image" content="<?php echo wp_get_attachment_thumb_url( get_post_thumbnail_id( $post->ID ) ) ?>" />
 <?php } else { ?>
 <meta property="og:image" content="http://www.dailyemerald.com/assets/e-sq.jpg" />
@@ -81,26 +71,6 @@
 	wp_head();
 ?>
 
-<div id="fb-root"></div>
-<script type="text/javascript"> 
-	window.fbAsyncInit = function() {
-		FB.init({appId: '197312536953017', status: true, cookie: true, xfbml: true});
-	};
-	(function() {
-		var e = document.createElement('script'); e.async = true;
-		e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-		document.getElementById('fb-root').appendChild(e);
-	}());
-</script>
-
-
-<!-- ATTACHED TIMEAGO JS FOR RELATIVE TIMESTAMPS. TODO: ADD TO EXTERNAL JS FILE -->
-<script type="text/javascript">
-//jQuery(document).ready(function() {
-//  jQuery("time.timeago").timeago();
-//});
-</script>
-<!-- END TIMEAGO -->
 </head>
 
 <body <?php body_class(); ?>>
@@ -112,18 +82,16 @@
 		</div>
 		
 		<div id="masthead">
-			<div id="branding" role="banner" style="float:left;">
-				<?php $heading_tag = ( is_home() || is_front_page() ) ? 'h1' : 'div'; ?>
-				<<?php echo $heading_tag; ?> id="site-title">
-					<span><a href="<?php echo home_url(); ?>"><img src="/wp-content/themes/ode/images/emerald-flag.png"></img></a></span>
-				</<?php echo $heading_tag; ?>>
+			<div id="branding" role="banner" class="float-left">
+				<div id="site-title">
+					<span><a href="<?php echo home_url(); ?>"><img height="80px" width="381px" src="<?php bloginfo('template_directory'); ?>/images/emerald-flag.png"></img></a></span>
+				</div>
 				<div id="branding-right">
 					
 				</div>
 			</div><!-- #branding -->
 
 			<div id="access" role="navigation">
-			  <?php /*  Allow screen readers / text browsers to skip the navigation menu and get right to the good stuff */ ?>
 				<div class="skip-link screen-reader-text"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentyten' ); ?>"><?php _e( 'Skip to content', 'twentyten' ); ?></a></div>
 				<?php /* Our navigation menu.  If one isn't filled out, wp_nav_menu falls back to wp_page_menu.  The menu assiged to the primary position is the one used.  If none is assigned, the menu with the lowest ID is used.  */ ?>
 				<?php wp_nav_menu( array( 'container_class' => 'menu-header', 'theme_location' => 'primary' ) ); ?>
