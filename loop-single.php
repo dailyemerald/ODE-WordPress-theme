@@ -28,8 +28,8 @@
 	<?php } ?>
 
 	<div class="entry-meta">
-		<p class="author"><?php ode_author_posts_link(); ?></p>
-		<p class="timestamp"><?php ode_timestamp(); ?></p>
+		<div class="author">By <?php do_action( 'ode_author_posts_link' ); ?></div>
+		<div class="timestamp"><?php do_action( 'ode_timestamp' ); ?></div>
 	</div><!-- .entry-meta -->
 	
 	<div class="entry-content">

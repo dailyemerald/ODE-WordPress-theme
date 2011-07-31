@@ -24,6 +24,8 @@ function ode_get_author() {
 
 	if ( $cp_byline = get_post_meta( $post->ID, '_cp_byline', true ) )
 		$author = esc_html( $cp_byline );
+	else if ( function_exists( 'coauthors' ) )
+		$author = coauthors( null, null, null, null, false );
 	else
 		$author = get_the_author();
 		
@@ -31,23 +33,40 @@ function ode_get_author() {
 }
 
 function ode_author_posts_link() {
+	echo ode_get_author_posts_link();
+}
+
+function ode_get_author_posts_link() {
 	global $post;
 	
 	if ( $cp_byline = get_post_meta( $post->ID, '_cp_byline', true ) )
-		echo 'By ' . esc_html( $cp_byline );
-	else if ( function_exists( 'coauthors_posts_link' ) )
-		coauthors_posts_link();
-	else
-		the_author_posts_link();
+		$author_posts_link = esc_html( $cp_byline );
+	else if ( function_exists( 'coauthors_posts_links' ) )
+		$author_posts_link = coauthors_posts_links( null, null, null, null, false );
+	else {
+		 global $authordata;
+		if ( !is_object( $authordata ) )
+			return false;
+		$author_posts_link = sprintf(
+			'<a href="%1$s" title="%2$s" rel="author">%3$s</a>',
+			get_author_posts_url( $authordata->ID, $authordata->user_nicename ),
+			esc_attr( sprintf( __( 'Posts by %s' ), get_the_author() ) ),
+			get_the_author()
+		);
+	}
+	return $author_posts_link;
 }
 
 function ode_timestamp() {
-	echo sprintf( '<span class="entry-date">%3$s</span> at <span class="entry-time">%4$s</span>',
-		get_permalink(),
-		esc_attr( get_the_time() ),
-		get_the_date(),
-		esc_attr( get_the_time() )
-	);
+	echo ode_get_timestamp();
+}
+
+function ode_get_timestamp() {
+	$timestamp = 'Published ';
+	$timestamp .= '<span class="entry-date">' . get_the_date() . '</span>';
+	if ( get_the_modified_date() != get_the_date() )
+		$timestamp .= ', last modified <span class="entry-modified-date">' . get_the_modified_date() . '</span>';
+	return $timestamp;
 }
 
 /**

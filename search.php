@@ -25,10 +25,10 @@
 
 			<div class="entry-meta">
 				<?php
-					$high_author = new Highlighter( ode_get_author(), $search_array );
+					$high_author = new Highlighter( ode_get_author_posts_link(), $search_array );
 					$high_author->mark_words();
 				?>
-				<span class="author">By <?php echo $high_author->get(); ?></span> - <span class="timestamp"><?php ode_timestamp(); ?></span>
+				<span class="author">By <?php echo $high_author->get(); ?></span> - <span class="timestamp"><?php do_action( 'ode_timestamp' ); ?></span>
 			</div><!-- .entry-meta -->
 
 			<div class="entry-summary entry">

@@ -89,6 +89,9 @@ class ode
 		// Template-specific methods
 		add_action( 'wp_head', 'ode_head_title_description' );		
 		add_action( 'wp_head', 'ode_head_fb_open_graph' );
+		add_action( 'ode_author', 'ode_author' );
+		add_action( 'ode_author_posts_link', 'ode_author_posts_link' );		
+		add_action( 'ode_timestamp', 'ode_timestamp' );
 		
 	}
 	

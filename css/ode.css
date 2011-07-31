@@ -2,6 +2,17 @@ body {
 	background: #ffffff;
 }
 
+h1, h2, h3, h4, h6 {
+	margin:  0;
+	padding:  0;
+	text-decoration: none;
+}
+
+body.single #main h2 {
+	padding-top: 15px;
+	padding-bottom: 8px;
+}
+
 body ul {
     list-style: disc outside none;
     margin-left: 14px;
@@ -113,11 +124,6 @@ body.single .archive-image .archive-caption {
 	width: 984px;
 }
 
-#main h1, #main h2, #main h3, #main h4, #main h6 {
-	margin:  0;
-	padding:  0;
-	text-decoration: none;
-}
 #main a {
 	color: #004F27;	
 	text-decoration: none;
