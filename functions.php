@@ -1,4 +1,5 @@
 <?php
+define( 'ODE_VERSION', '0.0' );
 
 if ( !class_exists( 'ode' ) ) {
 	
@@ -81,6 +82,8 @@ class ode
 			register_sidebar( $args );
 		}
 		
+		$this->enqueue_resources();
+		
 		register_nav_menu('header', 'Top header bar (for about, classified, etc)');
 		
 		// Template-specific methods
@@ -119,6 +122,19 @@ class ode
 			$wp_admin_bar->add_menu( $args );
 		}
 	}
+	
+	/**
+	 * enqueue_resources()
+	 * Enqueue any resources we need
+	 */
+	function enqueue_resources() {
+
+		if ( !is_admin() ) {
+			wp_enqueue_style( 'twentyten_css', get_bloginfo('template_directory') . '/style.css', false, ODE_VERSION );			
+			wp_enqueue_style( 'ode_primary_css', get_bloginfo('template_directory') . '/css/ode.css', array( 'twentyten_css' ), ODE_VERSION );
+		}
+
+	} // END enqueue_resources()	
 	
 	function register_settings() {
 
