@@ -83,6 +83,9 @@ class ode
 		
 		register_nav_menu('header', 'Top header bar (for about, classified, etc)');
 		
+		// Template-specific methods
+		add_action( 'wp_head', 'ode_fb_open_graph' );
+		
 	}
 	
 	function action_admin_init() {

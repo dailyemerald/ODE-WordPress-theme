@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" <?php //language_attributes(); ?>>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <title><?php
@@ -22,36 +22,8 @@
 	if ( $paged >= 2 || $page >= 2 )
 		echo ' | ' . sprintf( __( 'Page %s', 'twentyten' ), max( $paged, $page ) );
 
-	?></title>	
+	?></title>
 
-
-
-<meta property="fb:admins" content="100001785043323" />
-<meta property="fb:app_id" content="197312536953017" />
-<meta property="og:url" content="<?php the_permalink() ?>"/>
-<meta property="og:site_name" content="<?php bloginfo('name'); ?>" />
-
-<?php if (is_single()) { ?>
-<meta property="og:title" content="<?php single_post_title(''); ?>" />
-<meta property="og:description" content="<?php echo strip_tags(get_the_excerpt($post->ID)); ?>" />
-<meta property="og:type" content="article" />
-
-<?php if ( has_post_thumbnail() ) { ?>
-<meta property="og:image" content="<?php echo wp_get_attachment_thumb_url( get_post_thumbnail_id( $post->ID ) ) ?>" />
-<?php } else { ?>
-<meta property="og:image" content="http://www.dailyemerald.com/assets/e-sq.jpg" />
-<?php } ?>
-
-<meta name="description" content="<?php echo strip_tags(get_the_excerpt($post->ID)); ?>" />
-
-<?php } else { ?>
-<meta name="description" content="<?php bloginfo('description'); ?>" />
-<meta property="og:description" content="<?php bloginfo('description'); ?>" />
-<meta property="og:type" content="website" />
-<meta property="og:image" content="http://www.dailyemerald.com/assets/e-sq.jpg" />
-<?php }  ?>
-
-<?php //keywords: $metas=''; {foreach(get_the_tags($post->ID) as $tag) { $metas .= $tag->name . ', '; } echo substr($metas,0,-2);} ?>
 <meta name="google-site-verification" content="tKZ-zBCyoOqqxlUVpAKtqTpjHTQB7q98hArOIdUW2k4" />
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />

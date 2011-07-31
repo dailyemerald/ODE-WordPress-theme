@@ -76,3 +76,36 @@ function ode_pagination() {
 	echo "<div class='clear-both'></div>";
 	
 }
+
+/**
+ * Include Facebook Open Graph metadata for sharing
+ */
+function ode_fb_open_graph() {
+	
+	$properties = array(
+		'fb:admins' => '100001785043323',
+		'fb:app_id' => '197312536953017',
+		'og:title' => get_bloginfo( 'title' ),
+		'og:description' => get_bloginfo( 'description' ),		
+		'og:url' => get_bloginfo( 'url' ),
+		'og:type' => 'website',
+		'og:image' => get_bloginfo( 'template_directory' ) . '/images/e-sq.jpg',
+	);
+	
+	if ( is_single() ) {
+		global $post;
+		$properties['og:title'] = $post->post_title;
+		if ( !empty( $post->post_excerpt ) )
+			$properties['og:description'] = strip_tags( $post->post_excerpt );
+		else
+			$properties['og:description'] = substr( strip_tags( $post->post_content ), 0, 255 ) . '...';
+		$properties['og:permalink'] = get_permalink();
+		if ( has_post_thumbnail() )	
+			$properties['og:image'] = wp_get_attachment_thumb_url( get_post_thumbnail_id( $post->ID ) );
+	}
+	
+	
+	foreach( $properties as $property => $content ) {
+		echo '<meta property="' . $property . '" content="' . $content . '" />' . "\n";
+	}	
+}
