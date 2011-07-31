@@ -48,6 +48,13 @@
 			
 			<div style="clear:both"></div>
 			
+			<div id="top-banner-ad-wrapper">
+				<!-- Main Banner Ad -->
+				<div id="top-banner-ad">
+					<?php adtag_banner(); ?>	
+				</div>
+			</div>
+			
 		</div><!-- #masthead -->
 
 	</div><!-- #header -->
